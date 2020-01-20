@@ -1,6 +1,7 @@
 package com.ehr.study.security;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -62,6 +63,32 @@ public class SSConfig extends WebSecurityConfigurerAdapter {
 					//.successHandler(successHandler())
 					//.failureHandler(failureHandler())
 					.permitAll();
+	}
+
+	/*
+	 WebSecurityConfigurerAdapter를 확장하여 보안 설정을 했으므로
+	 가장 쉽게 사용자 저장소를 설정하는 방법은 AuthenticationManagerBuilder를 인자로 갖는
+	 configure() 메소드를 오버라이딩하는 것이다.
+	
+	사용자 상세 정보를 설정하는 메소드
+	accountExpired(boolean)							계정이 만료되었는지 아닌지를 정의
+	accountLocked(boolean)							계정이 잠겨 있는지 아닌지를 정의
+	and()											설정을 연결하기 위해 사용
+	authorities(GrantedAuthority...)				사용자에게 부여된 권한들을 명시
+	authorities(List<? extends GrantedAuthority>)	사용자에게 부여된 권한들을 명시
+	authorities(String...)							사용자에게 부여된 권한들을 명시
+	credentialsExpired(boolean)						자격이 만료되었는지 아닌지를 정의
+	disabled(boolean)								계정이 비활성화되었는지 아닌지를 정의
+	password(String)								사용자의 암호를 명시
+	roles(String...)								사용자에게 부여된 역할을 명시
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		//인메모리 사용자 저장소로 작업
+		auth
+		.inMemoryAuthentication()
+			.withUser("user").password("123").roles("USER");
+			
 	}
 	
 	
