@@ -11,4 +11,13 @@ public class UserCtl {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/admin")
+	public String admin() {
+		return "index";
+	}
+	
+	@RequestMapping(value = "/userLogin")
+	public String user() {
+		return "index";
+	}
 }
