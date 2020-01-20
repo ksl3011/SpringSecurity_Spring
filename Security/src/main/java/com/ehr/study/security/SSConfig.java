@@ -1,11 +1,23 @@
 package com.ehr.study.security;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+/* 
+원래 XML 기반의 설정에서는 web.xml에
+org.springframework.web.filter.DelegatingFilterProxy라는
+springSecurityFilterChain을 등록하는 것으로 시작
+자바 기반의 설정에서는 WebSecurityConfigurerAdapter를 상속받은 클래스에
+@EnableWebSecurity 어노테이션을 명시하는 것만으로도
+springSecurityFilterChain이 자동으로 포함
+
+자바설정했을시 xml파일설정하면 오류
+*/
+@Configuration
 @EnableWebSecurity
 public class SSConfig extends WebSecurityConfigurerAdapter {
 
@@ -40,29 +52,28 @@ public class SSConfig extends WebSecurityConfigurerAdapter {
 	*/
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic()			//사용자는 HTTP기반 인증으로 인증가능
-			.and()
-			.formLogin()			//사용자는 폼기반 로그인으로 인증가능
+		http.httpBasic()			//사용자는 HTTP기반 인증으로 인증가능		
 			.and()
 			.authorizeRequests()	//사용자 인증이 된 요청에 대해서만 요청을 허용
-				.antMatchers("/login/{userId}").authenticated()			//패스가 ".." 인 요청은 인증되어야 함을 명시
+				//.antMatchers("/login/{userId}").authenticated()		//패스가 ".." 인 요청은 인증되어야 함을 명시
 																		//여러 패스를 명시하는 것도 가능("/spitters/**", "/spittles/mine")
+				//.antMatchers("login2").authenticated()
+			
 				//.regexMatchers("/spitters/.*").authenticated()		//요청 패스에 정규 표현식을 사용할 수 있는 regexMatchers() 메소드도 있다.
 				
-				.antMatchers(HttpMethod.POST,".login").authenticated()	//모든 ".."에 대한 HTTP POST 요청이 인증되어야 함
+				//.antMatchers(HttpMethod.POST,".login2").authenticated()	//모든 ".."에 대한 HTTP POST 요청이 인증되어야 함
 				
 				//.anyRequest().permitAll()								//다른 모든 요청들을 인증이나 권한 없이 허용
 				
-				.antMatchers("/users/{userId}").access("hasRole('ADMIN_MASTER')")
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/**").permitAll()
+				
 				
 				.and()
-				.formLogin()
-					.loginPage("/login")
-					.usernameParameter("id")
-					.passwordParameter("pw")
-					//.successHandler(successHandler())
+				.formLogin()		//사용자는 폼기반 로그인으로 인증가능
+					.loginPage("/login")					//.successHandler(successHandler())
 					//.failureHandler(failureHandler())
-					.permitAll();
+					;
 	}
 
 	/*
@@ -90,7 +101,8 @@ public class SSConfig extends WebSecurityConfigurerAdapter {
 			.withUser("user").password("123").roles("USER");
 			
 	}
-	
-	
 
+	//https://okky.kr/article/382738
+	//https://m.blog.naver.com/kimnx9006/220634017538
+	
 }
