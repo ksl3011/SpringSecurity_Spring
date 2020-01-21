@@ -3,4 +3,4 @@
 
 * spring security login page
   * login
-  *
+  * logout
