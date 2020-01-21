@@ -8,5 +8,8 @@
 </head>
 <body>
 index
+<a href="admin">admin</a>
+<a href="user">user</a>
+
 </body>
 </html>

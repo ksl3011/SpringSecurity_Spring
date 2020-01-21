@@ -7,17 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserCtl {
 
 	@RequestMapping(value = "/")
-	public String main() {
-		return "index";
-	}
+	public void main() {}
 	
 	@RequestMapping(value = "/admin")
-	public String admin() {
-		return "index";
-	}
+	public void admin() {}
 	
-	@RequestMapping(value = "/userLogin")
-	public String user() {
-		return "index";
-	}
+	@RequestMapping(value = "/user")
+	public void user() {}
+	
+	@RequestMapping(value = "/login")
+	public void login() {}
 }
