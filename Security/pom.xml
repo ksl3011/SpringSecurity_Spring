@@ -13,7 +13,7 @@
 		<log4jdbc-remix.version>0.2.7</log4jdbc-remix.version>
 		<mybatis-spring.version>1.3.2</mybatis-spring.version>
 		<mybatis.version>3.4.6</mybatis.version>
-		<org.apache.poi>4.0.1</org.apache.poi>
+		<org.apache.poi>4.1.1</org.apache.poi>
 		<json-path-assert>2.4.0</json-path-assert>
 		<gson.version>2.8.5</gson.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
